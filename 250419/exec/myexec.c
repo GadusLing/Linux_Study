@@ -24,6 +24,8 @@ int main(int argc, char *argv[], char **env)
         //char *const myenv[] = {"PATH=/usr/bin", "WORLD=1", NULL};
         // 执行进程替换
         
+        printf("我是程序替换前，我的pid: %d\n\n", getpid());
+        
         putenv(my);
         execvpe("./mycmd", myargv, environ);
 

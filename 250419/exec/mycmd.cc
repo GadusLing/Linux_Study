@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio>
+#include <unistd.h>
 
 //int main() 
 //{
@@ -22,6 +23,6 @@ int main(int argc, char *argv[], char *env[])
     {    // env[i]为NULL时终止循环
         printf("env[%d]: %s\n", i, env[i]);
     }
-    
+    printf("我是程序替换后，我的pid: %d\n\n", getpid());   
     return 0;
 }
