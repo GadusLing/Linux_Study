@@ -6,11 +6,18 @@ int main()
     while(true)
     {
         InitGlobal();// 初始化全局变量，避免数据残留
+        
         printCommandPrompt();// 输出命令行提示符
+        
         if(!getCommandString(commandstr, SIZE))// 获取用户输入
             continue;
-        //printf("%s\n", commandstr);
+
+        CheckRedir(commandstr);
+
         parseCommandString(commandstr);// 解析string命令获得参数数与参数列表
+       
+        if(builtInCommandExec()) continue;// 处理类cd的内建命令
+        
         forkAndExec();// 执行命令，让子程序来执行
 
     }

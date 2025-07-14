@@ -1,0 +1,11 @@
+total 72
+drwxrwxr-x 2 ldw ldw  4096 Jul 14 10:54 .
+drwxrwxr-x 7 ldw ldw  4096 Jul 11 19:05 ..
+-rw-rw-r-- 1 ldw ldw     0 Jul 14 10:54 log.txt
+-rw-rw-r-- 1 ldw ldw   617 Jul 14 09:40 main.cc
+-rw-rw-r-- 1 ldw ldw  2880 Jul 14 10:54 main.o
+-rw-rw-r-- 1 ldw ldw   331 Jul 11 14:17 Makefile
+-rwxrwxr-x 1 ldw ldw 20352 Jul 14 10:54 myshell
+-rw-rw-r-- 1 ldw ldw  8401 Jul 14 10:54 myshell.cc
+-rw-rw-r-- 1 ldw ldw   575 Jul 14 10:06 myshell.h
+-rw-rw-r-- 1 ldw ldw 14832 Jul 14 10:54 myshell.o

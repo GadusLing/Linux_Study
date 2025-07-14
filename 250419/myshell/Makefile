@@ -1,5 +1,5 @@
 XX = g++  # 使用标准 C++ 编译器变量名
-CXXFLAGS = -Wall -Wextra
+CXXFLAGS = -Wall -Wextra -std=c++11
 TARGET = myshell
 SRCS = main.cc myshell.cc
 OBJS = $(SRCS:.cc=.o)
