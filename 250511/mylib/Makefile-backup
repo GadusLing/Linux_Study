@@ -1,0 +1,21 @@
+# 目标：生成静态库 libmyc.a，依赖 mymath.o 和 mystdio.o
+libmyc.a: mymath.o mystdio.o
+	ar -rc $@ $^ 
+
+# 通配规则：将 .c 文件编译为 .o 文件
+%.o: %.c
+	gcc -c $<
+
+# 伪目标：清理生成的文件
+.PHONY: clean
+clean:
+	rm -rf *.a *.o mylibc *.tgz
+
+.PHONY: output
+output:
+	mkdir mylibc
+	mkdir -p mylibc/include
+	mkdir -p mylibc/lib
+	cp *.h mylibc/include
+	cp *.a mylibc/lib
+	tar czf mylibc.tgz mylibc
