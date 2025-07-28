@@ -9,6 +9,9 @@ int main()
     shm.Attach();
     // sleep(2);
 
+    shm.PrintAttr();
+    sleep(3);
+
     // 使用
     while(true)
     {

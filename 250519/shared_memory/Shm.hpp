@@ -129,6 +129,22 @@ public:
         return true;
     }
 
+    // 获取共享内存相关的属性
+    void PrintAttr()
+    {
+        struct shmid_ds ds;
+        if(shmctl(_shmid, IPC_STAT, &ds) == -1)
+        {
+            perror("shmctl");
+            return;
+        }
+        printf("key: 0x%x\n", ds.shm_perm.__key);
+        printf("size: %zu\n", ds.shm_segsz);
+        printf("atime: %lu\n", ds.shm_atime);
+        printf("nattch: %lu\n", ds.shm_nattch);
+
+    }
+
 private:
     key_t _key;
     int _size;
@@ -166,10 +182,12 @@ private:
         return true;
     }
 
+    // 获取共享内存的缓冲区大小
     size_t BufferSize() const {
         return _size - sizeof(size_t) * 2;
     }
 
+    // 检查共享内存是否有足够的空间来存储数据
     bool HasSpace(size_t dataSize) const {
         auto blk = (ShmBlock*)_start_addr;
         // 简化版：不考虑满/空细节，只判断容量足够
