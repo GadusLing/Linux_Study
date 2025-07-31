@@ -4,91 +4,43 @@
 #include <signal.h>
 #include <vector>
 #include <functional>
-#include <sys/wait.h>
 
-int main(int argc, char *argv[])
+using func_t = std::function<void()>;
+std::vector<func_t> cb;
+
+void FlushDisk()
 {
-    pid_t id = fork();
-    if (id == 0)
-    {
-        sleep(2);
-        // int a  = 10;
-        // a /= 0; // This will cause a division by zero error
-        exit(1);
-    }
-    int status = 0;
-    pid_t rid = waitpid(id, &status, 0);
-    if (rid > 0)
-    {
-        printf("exit code: %d, exit signal: %d, core dump: %d\n",
-               (status >> 8) & 0xFF, status & 0x7F, (status >> 7) & 0x1);
-    }
-    // ulimit -a 查看是否开启了 core 文件的生成
-
-    // core-file 指令
-    // 假设你有一个核心转储文件 core 和对应的可执行文件 myprogram，可以这样使用 GDB：
-    // gdb myprogram
-    // (gdb) core-file core
+    std::cout << "我是一个刷盘的操作" << std::endl;
 }
 
+void sched()
+{
+    std::cout << "我是一个进程调度" << std::endl;
+}
 
-// void handler(int signo)
-// {
-//     std::cout << "我收到了一个信号：" << signo << std::endl;
-//     // 故意不让进程退出
-// }
-//
-// int main()
-// {
-//     //signal(SIGFPE, handler);
-//     signal(SIGSEGV, handler);
-//     sleep(2);
+void handler(int signo)
+{
+    for(auto &f : cb)
+    {
+        f(); // 调用所有注册的回调函数
+    }
 
-//     int *p = nullptr;
-//     *p = 10; // This will cause a segmentation fault
+    (void)signo;
+    std::cout << "我是一个信号捕捉函数，我被调用了" << std::endl;
+    alarm(1);
+}
 
-//     // int a = 10;
-//     // a /= 0; // This will cause a division by zero error
-//     std::cout << "我的进程崩溃了！" << std::endl;
-//     return 0;
-// }
-
-// using func_t = std::function<void()>;
-// std::vector<func_t> cb;
-
-// void FlushDisk()
-// {
-//     std::cout << "我是一个刷盘的操作" << std::endl;
-// }
-
-// void sched()
-// {
-//     std::cout << "我是一个进程调度" << std::endl;
-// }
-
-// void handler(int signo)
-// {
-//     for(auto &f : cb)
-//     {
-//         f(); // 调用所有注册的回调函数
-//     }
-
-//     (void)signo;
-//     std::cout << "我是一个信号捕捉函数，我被调用了" << std::endl;
-//     alarm(1);
-// }
-
-// int main()
-// {
-//     cb.push_back(FlushDisk);
-//     cb.push_back(sched);
-//     signal(SIGALRM, handler);
-//     alarm(1);
-//     while (true)
-//     {
-//         pause();
-//     }
-// }
+int main()
+{
+    cb.push_back(FlushDisk);
+    cb.push_back(sched);
+    signal(SIGALRM, handler);
+    alarm(1);
+    while (true)
+    {
+        pause();
+    }
+}
 
 // int cnt = 0;
 
